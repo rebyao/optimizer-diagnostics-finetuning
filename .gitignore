@@ -22,7 +22,7 @@ __pycache__/
 *.key
 
 # Model weights and checkpoints (large binaries; keep metrics/configs/logs above them)
-outputs/**/best_model/model.safetensors
+outputs/**/best_model/
 outputs/**/*.safetensors
 outputs/**/*.bin
 outputs/**/*.pt
@@ -30,3 +30,23 @@ outputs/**/*.ckpt
 
 # Training logs (kept locally, not pushed)
 *.log
+
+# Smoke-test and one-off setup artifacts (kept locally, not pushed)
+outputs/smoke/
+outputs/*_smoke/
+outputs/diagnostics_setup_attempt/
+smoke_test.py
+smoke_test_results.json
+
+# Fresh reproduction output directories created by README commands
+outputs/repro_*/
+deliverables_repeat/
+
+# Historical Chinese-stage reports and legacy verification tool (kept locally, not pushed)
+REPORT.md
+BASELINE_REPORT.md
+MUON_REPORT.md
+DIAGNOSTICS_REPORT.md
+OPTIMIZER_DIAGNOSTICS_32STEPS.md
+compare.py
+adamw_preservation.json

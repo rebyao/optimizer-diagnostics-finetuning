@@ -1,29 +1,18 @@
 # AdamW vs Muon — DistilBERT / SST-2
 
-This project contains three **separate completed experiments**: full fine-tuning, a matched 32-step optimizer diagnostic run, and checkpoint perturbation analysis. Consolidation reads saved results only; it does not train or modify checkpoints.
+Comparison of AdamW and Muon (with an AdamW fallback for non-matrix parameters) for fine-tuning DistilBERT on SST-2. The repository covers three separate experiments: full 3-epoch fine-tuning, a matched 32-step optimizer diagnostic run, and a checkpoint sharpness (perturbation) analysis.
 
-## Read the results
+## Project overview
 
-- [One-page English report (PDF)](deliverables/REPORT_EN.pdf) / [Markdown](deliverables/REPORT_EN.md). The assignment's four questions were not provided; the current four-question mapping is explicitly provisional.
-- [Results tables](deliverables/RESULTS.md): [performance](deliverables/performance.csv), [32-step diagnostics](deliverables/diagnostics_means.csv), [sharpness](deliverables/sharpness.csv).
-- [Performance figure](deliverables/performance.png), [optimizer diagnostics figure](deliverables/optimizer_diagnostics.png), [sharpness figure](deliverables/sharpness.png). Vector PDFs are also available.
+- **Model / task**: DistilBERT fine-tuned for binary sentiment classification on GLUE SST-2 (67,349 train / 872 validation examples).
+- **Comparison**: AdamW (lr 2e-5) vs Muon for the 37 hidden linear weight matrices with AdamW fallback (lr 2e-5) for embeddings, biases, LayerNorm and the classifier head. Muon's fallback learning rate (0.003) was chosen by a predeclared stability check over three candidates, not by picking the highest score (`muon_sanity.py`, `outputs/muon_sanity/`).
+- **Diagnostics**: a separate, matched 32-step run records real per-step gradient and update norms for both optimizers under identical initialization, batches, and RNG state (`run_optimizer_diagnostics.py`, `outputs/optimizer_diagnostics_32steps/`).
+- **Sharpness**: the best checkpoint from each full run is perturbed along 8 paired random directions at 5 magnitudes to compare local loss curvature (`analyze_checkpoints.py`, `outputs/diagnostics/`).
+- Muon is vendored unmodified as `SingleDeviceMuon` (`vendor/muon.py`); its license and source commit/checksum are in `vendor/LICENSE` and `vendor/SOURCE.json`.
 
-| Measurement | AdamW | Muon + AdamW fallback |
-|---|---:|---:|
-| Full-run final validation accuracy | 90.8257% | 84.4037% |
-| Full-run final validation loss | 0.262449 | 0.393930 |
-| Best validation accuracy (epoch) | 90.8257% (3) | 87.0413% (1) |
-| Separate 32-step mean training loss | 0.671843 | 0.651614 |
-| Separate 32-step mean update norm | 0.055392 | 0.493242 |
-| Best-checkpoint symmetric mean Δloss, ε=0.1 | 0.007410 | 0.004354 |
+## Setup & reproduction
 
-Muon had lower early loss and larger updates in the short run, but worse final accuracy in full training. Sharpness remains inconclusive: the paired directional difference interval includes zero. Historical three-epoch update/gradient norms were never recorded; the short run does not reconstruct them. Best checkpoints represent different epochs.
-
-## Environment
-
-Tested: CPython **3.11.16**, macOS arm64, Apple M4, MPS; CUDA unavailable on this machine. Device selection prefers CUDA, then MPS, then CPU. Use Python 3.11 for this exact dependency set.
-
-On a fresh checkout/environment:
+Tested on CPython 3.11.16, macOS arm64 (Apple M4, MPS); CUDA unavailable on this machine. Device selection prefers CUDA, then MPS, then CPU.
 
 ```bash
 python3.11 -m venv .venv
@@ -31,96 +20,93 @@ python3.11 -m venv .venv
 .venv/bin/python -m pip check
 ```
 
-`requirements.txt` pins direct dependencies, including SciPy used for the directional t interval. `installed-versions.txt` is the complete historical environment snapshot (including transitive dependencies). To reproduce that exact snapshot on compatible Python/platforms, install with `-r installed-versions.txt` instead. Neither approach guarantees bitwise equality across hardware. No environment changes or package installation were performed during consolidation.
+`requirements.txt` pins direct dependencies. `installed-versions.txt` is the full historical environment snapshot (including transitive dependencies); install with `-r installed-versions.txt` instead to reproduce that exact snapshot on a compatible Python/platform. Neither approach guarantees bitwise-identical results across different hardware.
 
-The model and dataset revisions used by the experiments are now pinned in `train.py` and reused by the experimental entrypoints:
+Model/dataset revisions are pinned in `train.py`:
 
-- DistilBERT: `12040accade4e8a0f71eabdb258fecc2e7e948be`.
-- `nyu-mll/glue`, SST-2: `bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c`.
-- Muon: vendored, unmodified `SingleDeviceMuon`; commit/license/checksum in `vendor/SOURCE.json` and `vendor/LICENSE`.
+- DistilBERT: `12040accade4e8a0f71eabdb258fecc2e7e948be`
+- `nyu-mll/glue`, SST-2: `bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c`
 
-`.cache/huggingface/` holds model/dataset downloads. Use `HF_HUB_OFFLINE=1` when the cache is present; omit it on first use on another machine. `.python/` is the local interpreter backing the existing `.venv`; do not delete it while using this environment.
-
-## Regenerate only figures and tables — no training
+### Regenerate report tables and figures only (no training)
 
 ```bash
 .venv/bin/python summarize_experiments.py --output-dir deliverables_repeat
+.venv/bin/python render_report.py
 ```
 
-This verifies completed records, writes new CSV/Markdown/PNG/PDF outputs, and hashes all original `outputs/` files before/after. It does not import training code or load models. The English report is editorial text grounded in these tables; `render_report.py` renders `deliverables/REPORT_EN.md` into one A4 PDF page. The renderer does not run experiments.
+`summarize_experiments.py` reads the existing files under `outputs/`, hashes them before and after, and writes fresh CSV/Markdown/PNG/PDF outputs — it does not load any model or run training. `render_report.py` renders `deliverables/REPORT_EN.md` into a one-page PDF.
 
-## Experimental commands — reference only
+### Full experiment commands (reference only — not rerun for this submission)
 
-**These commands run experiments; they were not rerun during consolidation.** Fresh output directories are mandatory. For a complete end-to-end reproduction with default paths, use a separate clean project copy containing the code/dependencies but no `outputs/` results. On this existing project, use the new directories shown below.
-
-### Full runs and smoke tests
+These write to **new** output directories so the original results under `outputs/` are never overwritten. Run in a clean copy of this project for a complete end-to-end reproduction (weights are not included in this repository — see [Limitations](#limitations)).
 
 ```bash
-PYTHONHASHSEED=42 .venv/bin/python train.py --smoke-test --output-dir outputs/repro_adamw_smoke
-PYTHONHASHSEED=42 .venv/bin/python train.py --optimizer muon --lr 0.003 --smoke-test --output-dir outputs/repro_muon_smoke
-
+# Full 3-epoch training
 PYTHONHASHSEED=42 .venv/bin/python train.py --optimizer adamw \
   --epochs 3 --batch-size 32 --lr 2e-5 --seed 42 --output-dir outputs/repro_adamw
 PYTHONHASHSEED=42 .venv/bin/python train.py --optimizer muon \
   --epochs 3 --batch-size 32 --lr 0.003 --fallback-lr 2e-5 --seed 42 --output-dir outputs/repro_muon
-```
 
-Constant LR; maximum length128; dynamic padding; FP32 model; no warmup, scheduler or clipping. Matrix weight decay0.01, 1D parameters/biases0. Muon handles 37 hidden linear matrices; embeddings, LayerNorm, biases and final classifier use AdamW. Muon internally orthogonalizes in BF16. Same decay coefficient with different LR means different effective decay.
-
-`muon_sanity.py` reproduces the predeclared LR check (0.001/0.003/0.01), using 512 training examples plus 128 disjoint training-only holdout examples, 16 steps per candidate. It writes `outputs/muon_sanity/` and refuses existing results; run it in a clean reproduction copy. It selects 0.003 if stable, not the highest accuracy. The saved original protocol is in `outputs/muon_sanity/protocol.json`.
-
-### Exactly 32 steps per optimizer
-
-```bash
+# Matched 32-step optimizer diagnostics (reads original run configs from outputs/adamw, outputs/muon)
 PYTHONHASHSEED=42 .venv/bin/python run_optimizer_diagnostics.py \
   --output-dir outputs/repro_diagnostics_32steps
-```
 
-Reads original optimizer configurations from `outputs/adamw/` and `outputs/muon/`. Verifies identical pretrained initialization, 1024 examples, batch order and per-step RNG states. Records real pre-step gradients and post-step updates, globally and for matching matrix/fallback groups. It does not save a model. `train.py --diagnostics` additionally supports optional global per-step recording for future authorized runs.
-
-### Checkpoint sharpness (no optimizer steps)
-
-```bash
+# Checkpoint sharpness (reads original best checkpoints from outputs/{adamw,muon}/best_model)
 PYTHONHASHSEED=42 .venv/bin/python analyze_checkpoints.py \
   --output-dir outputs/repro_sharpness
 ```
 
-Reads the original best checkpoints at `outputs/{adamw,muon}/best_model/`. Uses 256 shared validation examples, eight paired directions and ε∈{0,0.001,0.003,0.01,0.03,0.1}; perturbations are normalized per parameter tensor. Restores weights and verifies file hashes. Reported uncertainty is over directions only, not training seeds or datasets.
+Fixed settings: constant learning rate, max length 128, dynamic padding, FP32 model, no warmup/scheduler/clipping. Weight decay 0.01 on matrix parameters, 0 on 1D parameters/biases. Muon's internal orthogonalization runs in BF16.
 
-Analysis/comparison scripts intentionally reference the original run locations. To analyze a new complete reproduction without changing originals, use default run locations in a separate clean project copy. `compare.py` is a legacy original-run verification tool tied to `adamw_preservation.json`; it is not required for new reproductions.
+`muon_sanity.py` reruns the predeclared learning-rate check (0.001 / 0.003 / 0.01) on 512 training + 128 disjoint holdout examples, 16 steps per candidate; it refuses to overwrite an existing `outputs/muon_sanity/`.
 
-## Files and provenance
+## Main results
+
+| Measurement | AdamW | Muon + AdamW fallback |
+|---|---:|---:|
+| Full-run final validation accuracy | 90.8257% | 84.4037% |
+| Full-run final validation loss | 0.262449 | 0.393930 |
+| Best validation accuracy (epoch) | 90.8257% (epoch 3) | 87.0413% (epoch 1) |
+| Separate 32-step mean training loss | 0.671843 | 0.651614 |
+| Separate 32-step mean global update norm | 0.055392 | 0.493242 |
+| Best-checkpoint symmetric mean Δloss, ε = 0.1 | 0.007410 | 0.004354 |
+
+Muon showed lower loss and larger parameter updates during the short 32-step run, but ended full training with lower validation accuracy than AdamW under this fixed configuration. Sharpness is inconclusive: the paired directional difference in loss increase between optimizers includes zero across all tested magnitudes. Full tables are in [`deliverables/RESULTS.md`](deliverables/RESULTS.md).
+
+## Report and figures
+
+- **Report**: [`deliverables/REPORT_EN.md`](deliverables/REPORT_EN.md) / [`deliverables/REPORT_EN.pdf`](deliverables/REPORT_EN.pdf)
+- **Result tables**: [`deliverables/RESULTS.md`](deliverables/RESULTS.md), with source CSVs [`performance.csv`](deliverables/performance.csv), [`epochs.csv`](deliverables/epochs.csv), [`diagnostics_means.csv`](deliverables/diagnostics_means.csv), [`sharpness.csv`](deliverables/sharpness.csv), [`sharpness_paired.csv`](deliverables/sharpness_paired.csv)
+- **Figures**: [`training_loss.png`](deliverables/training_loss.png), [`gradient_update_norms.png`](deliverables/gradient_update_norms.png), [`optimizer_diagnostics.png`](deliverables/optimizer_diagnostics.png), [`sharpness.png`](deliverables/sharpness.png), [`performance.png`](deliverables/performance.png) (vector PDFs of each are also provided alongside the PNGs)
+- **Provenance**: [`deliverables/provenance.json`](deliverables/provenance.json) records SHA-256 hashes of the original `outputs/` files used to build the report; [`deliverables/cleanup.json`](deliverables/cleanup.json) and [`deliverables/report_translation_audit.json`](deliverables/report_translation_audit.json) log the non-experimental cleanup and report-text edits applied after the runs completed.
+
+## Repository layout
 
 ```text
-train.py, optimizers.py, vendor/       training loop and pinned Muon source
-muon_sanity.py                         tiny LR stability check
-run_optimizer_diagnostics.py          fixed 32-step matched experiment
-diagnostics.py                        global/grouped norm recording
-analyze_checkpoints.py                 checkpoint gradients and perturbations
-summarize_experiments.py               results-only tables and figures
-render_report.py                       one-page English PDF
+train.py, optimizers.py, vendor/     training loop and vendored Muon optimizer
+muon_sanity.py                       learning-rate stability check
+run_optimizer_diagnostics.py         matched 32-step optimizer diagnostic run
+diagnostics.py                       gradient/update norm recording helpers
+analyze_checkpoints.py               checkpoint perturbation / sharpness analysis
+summarize_experiments.py             builds deliverables/ tables and figures from outputs/
+render_report.py                     renders the one-page English PDF report
 requirements.txt, installed-versions.txt
-outputs/                              original metrics, protocols, raw CSVs, checkpoints
-  adamw/, muon/                       full runs (unchanged)
-  optimizer_diagnostics_32steps/       independent short-run data
-  diagnostics/                        perturbation data and endpoint gradients
-  *_smoke/, smoke/, muon_sanity/       earlier verification/stability records
-deliverables/                         consolidated report, figures, tables, provenance
-*.log, *REPORT*.md, *.zh-CN.md          original logs and detailed stage reports
+outputs/                             raw metrics, protocols, and CSVs from each run
+  adamw/, muon/                        full 3-epoch runs (config, metrics, checkpoint verification)
+  optimizer_diagnostics_32steps/       32-step matched diagnostic data
+  diagnostics/                         checkpoint gradients and sharpness perturbation data
+  muon_sanity/                         learning-rate stability check results
+  comparison.csv, comparison.md        run-to-run comparison summary
+deliverables/                        final report, figures, and result tables
 ```
 
-All raw results, checkpoints, logs and earlier reports are retained in place. `outputs/diagnostics_setup_attempt/` contains only an earlier failed setup's audit manifest; it is retained because later provenance manifests reference it. Cleanup removes regenerable project Python bytecode only, not experiment data, model caches or the environment. See `deliverables/provenance.json` and `deliverables/cleanup.json`.
+Saved model checkpoint weights are not included in this repository (see Limitations); everything needed to inspect metrics, regenerate the report, or rerun the experiments end-to-end from a fresh checkpoint is included.
 
+## Limitations
 
-## Detailed stage reports (English)
-
-All previously Chinese stage reports have been translated into English. Their historical `.zh-CN.md` filenames are retained to preserve existing paths and links. Statements about work not yet performed describe the stage at which each report was written.
-
-- [Environment setup](REPORT.md)
-- [AdamW baseline](BASELINE_REPORT.md)
-- [Muon comparison](MUON_REPORT.md)
-- [Checkpoint diagnostics and sharpness](DIAGNOSTICS_REPORT.md)
-- [32-step optimizer diagnostics](OPTIMIZER_DIAGNOSTICS_32STEPS.md)
-- [Original comparison summary](outputs/comparison.md)
-
-Translation changes documentation only. Numerical experimental files and checkpoints remain unchanged. Earlier provenance manifests retain their historical hashes; `deliverables/report_translation_audit.json` records the authorized report-text changes, including the derived `outputs/comparison.md`.
+- Single training seed (42) per optimizer; no repeated runs to estimate run-to-run variance.
+- Checkpoint weight files (`model.safetensors`) are intentionally excluded from this repository to keep it small; `analyze_checkpoints.py` and the sharpness figures were produced from local checkpoints that are not included here, so that specific analysis step cannot be rerun from a fresh clone without first completing full training.
+- Historical gradient/update norms for the original 3-epoch runs were never recorded and cannot be reconstructed; the 32-step diagnostic run is a separate, shorter experiment under matched conditions, not a continuation of the original training trajectory.
+- Sharpness is estimated from 8 random paired directions per checkpoint, which do not identify worst-case curvature, and the perturbation normalization is not fully reparameterization-invariant.
+- The best AdamW and Muon checkpoints come from different epochs (3 vs 1), which limits direct comparison of sharpness at a fixed training stage.
+- The assignment's original four questions were not provided to us; the four themes in the report (design, performance, dynamics, sharpness) are a provisional mapping.
