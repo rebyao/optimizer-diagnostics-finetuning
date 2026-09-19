@@ -1,0 +1,27 @@
+{
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.25459547194024357,
+      "validation_loss": 0.3695635207749288,
+      "validation_accuracy": 0.8704128440366973
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.1692302561452864,
+      "validation_loss": 0.5705770729878626,
+      "validation_accuracy": 0.838302752293578
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.13608673682972913,
+      "validation_loss": 0.3939301188385815,
+      "validation_accuracy": 0.8440366972477065
+    }
+  ],
+  "best_epoch": 1,
+  "best_validation_accuracy": 0.8704128440366973,
+  "checkpoint": "outputs/muon/best_model",
+  "completed": true,
+  "elapsed_seconds": 3621.3877327920054
+}

@@ -1,0 +1,29 @@
+{
+  "model": "distilbert-base-uncased",
+  "optimizer": "adamw",
+  "epochs": 3,
+  "batch_size": 32,
+  "lr": 2e-05,
+  "seed": 42,
+  "max_length": 128,
+  "output_dir": "/Users/rebeccayao/Desktop/Optimization_FT/outputs/adamw",
+  "smoke_test": false,
+  "device": "mps",
+  "weight_decay": 0.01,
+  "lr_schedule": "constant",
+  "precision": "float32",
+  "deterministic_warn_only": true,
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "dataset_fingerprints": {
+    "train": "6c6bfaed2d50503f",
+    "validation": "6ee6a679e39a32a3"
+  },
+  "train_rows": 67349,
+  "validation_rows": 872,
+  "versions": {
+    "torch": "2.8.0",
+    "transformers": "4.57.1",
+    "datasets": "4.3.0",
+    "numpy": "2.2.6"
+  }
+}

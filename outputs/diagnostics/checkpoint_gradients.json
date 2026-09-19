@@ -1,0 +1,20 @@
+{
+  "adamw": {
+    "gradient_norm": 2.379804561046456,
+    "parameter_norm": 416.1895476466427,
+    "validation_loss": 0.22532904148101807,
+    "validation_accuracy": 0.8984375,
+    "historical_update_norm": null,
+    "historical_relative_update_norm": null,
+    "restoration_verified": true
+  },
+  "muon": {
+    "gradient_norm": 2.1501474799396267,
+    "parameter_norm": 421.14598434037754,
+    "validation_loss": 0.3198715467005968,
+    "validation_accuracy": 0.890625,
+    "historical_update_norm": null,
+    "historical_relative_update_norm": null,
+    "restoration_verified": true
+  }
+}

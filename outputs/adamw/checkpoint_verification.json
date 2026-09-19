@@ -1,0 +1,7 @@
+{
+  "checkpoint_reload": "passed",
+  "validation_loss": 0.26244904230767435,
+  "validation_accuracy": 0.908256880733945,
+  "device": "mps",
+  "validation_rows": 872
+}

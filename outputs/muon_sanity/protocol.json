@@ -1,0 +1,17 @@
+{
+  "candidates": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "preferred_lr": 0.003,
+  "fallback_lr": 2e-05,
+  "train_rows": 512,
+  "holdout_rows": 128,
+  "seed": 42,
+  "batch_size": 32,
+  "max_length": 128,
+  "epochs_per_candidate": 1,
+  "data_source": "nyu-mll/glue sst2 train only; disjoint seeded subsets",
+  "selection_rule": "Prefer 0.003 if stable; otherwise first stable candidate in ascending order. Stable = finite run, train loss < 0.9, and holdout loss <= initial loss + 0.05. Do not rank by accuracy or lowest validation loss."
+}

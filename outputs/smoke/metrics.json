@@ -1,0 +1,15 @@
+{
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_loss": 0.6993237733840942,
+      "validation_loss": 0.6769991517066956,
+      "validation_accuracy": 0.625
+    }
+  ],
+  "best_epoch": 1,
+  "best_validation_accuracy": 0.625,
+  "checkpoint": "/Users/rebeccayao/Desktop/Optimization_FT/outputs/smoke/best_model",
+  "completed": true,
+  "elapsed_seconds": 4.457332457997836
+}

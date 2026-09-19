@@ -1,0 +1,28 @@
+{
+  "train": {
+    "identical_ordered_rows": true,
+    "adamw": {
+      "rows": 67349,
+      "content_sha256": "3e791975321e28cf5b94b2f57f08499fb92c66e7c2290f6a90096403ae4428b4",
+      "cache": ".cache/huggingface/datasets/nyu-mll___glue/sst2/0.0.0/bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c/cache-f0fddab9330ff22f.arrow"
+    },
+    "muon": {
+      "rows": 67349,
+      "content_sha256": "3e791975321e28cf5b94b2f57f08499fb92c66e7c2290f6a90096403ae4428b4",
+      "cache": ".cache/huggingface/datasets/nyu-mll___glue/sst2/0.0.0/bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c/cache-f0fddab9330ff22f.arrow"
+    }
+  },
+  "validation": {
+    "identical_ordered_rows": true,
+    "adamw": {
+      "rows": 872,
+      "content_sha256": "afff40f002e9e8ca899c815069651096572e46719111ddd52180b99e4287c266",
+      "cache": ".cache/huggingface/datasets/nyu-mll___glue/sst2/0.0.0/bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c/cache-f41a18d64ca2e7ed.arrow"
+    },
+    "muon": {
+      "rows": 872,
+      "content_sha256": "afff40f002e9e8ca899c815069651096572e46719111ddd52180b99e4287c266",
+      "cache": ".cache/huggingface/datasets/nyu-mll___glue/sst2/0.0.0/bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c/cache-7016e2e7192495dd.arrow"
+    }
+  }
+}

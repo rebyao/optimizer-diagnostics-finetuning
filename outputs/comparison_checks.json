@@ -1,0 +1,22 @@
+{
+  "matched_config_keys": [
+    "model",
+    "model_revision",
+    "epochs",
+    "batch_size",
+    "seed",
+    "max_length",
+    "device",
+    "weight_decay",
+    "lr_schedule",
+    "precision",
+    "deterministic_warn_only",
+    "train_rows",
+    "validation_rows",
+    "versions"
+  ],
+  "tokenized_data_identical": true,
+  "adamw_outputs_unchanged": true,
+  "all_runs_completed": true,
+  "accuracy_delta_percentage_points": -6.422018348623848
+}

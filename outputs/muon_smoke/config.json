@@ -1,0 +1,37 @@
+{
+  "model": "distilbert-base-uncased",
+  "optimizer": "muon",
+  "epochs": 1,
+  "batch_size": 32,
+  "lr": 0.003,
+  "fallback_lr": 2e-05,
+  "seed": 42,
+  "max_length": 128,
+  "output_dir": "/Users/rebeccayao/Desktop/Optimization_FT/outputs/muon_smoke",
+  "smoke_test": true,
+  "device": "mps",
+  "weight_decay": 0.01,
+  "lr_schedule": "constant",
+  "precision": "float32",
+  "deterministic_warn_only": true,
+  "model_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "dataset_fingerprints": {
+    "train": "bc17faa0cd190465",
+    "validation": "ed706e8f924048e1"
+  },
+  "train_rows": 64,
+  "validation_rows": 64,
+  "versions": {
+    "torch": "2.8.0",
+    "transformers": "4.57.1",
+    "datasets": "4.3.0",
+    "numpy": "2.2.6"
+  },
+  "muon_source": {
+    "repository": "https://github.com/KellerJordan/Muon",
+    "commit": "f98f1cacc0263b04290753e32be8d498c1efc806",
+    "muon_sha256": "2479665a90124f62e4df557816665851ca317e42fcfda2af1da02c1f44ab5f3d",
+    "modifications": "none"
+  },
+  "muon_groups_file": "parameter_groups.json"
+}

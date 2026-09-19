@@ -1,0 +1,32 @@
+# Virtual environments / local interpreter
+.venv/
+.python/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Local caches (HF datasets/models, matplotlib, uv, etc.)
+.cache/
+
+# macOS
+.DS_Store
+
+# Secrets / env files
+.env
+.env.*
+*.pem
+*.key
+
+# Model weights and checkpoints (large binaries; keep metrics/configs/logs above them)
+outputs/**/best_model/model.safetensors
+outputs/**/*.safetensors
+outputs/**/*.bin
+outputs/**/*.pt
+outputs/**/*.ckpt
+
+# Training logs (kept locally, not pushed)
+*.log

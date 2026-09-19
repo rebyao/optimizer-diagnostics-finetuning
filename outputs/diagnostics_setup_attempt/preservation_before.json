@@ -1,0 +1,21 @@
+{
+  "outputs/adamw/metrics.json": "be4476dbc228b0e119decd414968cbc8929c5c5ec036385a04eb1b8889345c4b",
+  "outputs/adamw/config.json": "d72aa229883d849b6bd115b45926c03b748b322d170159952157345d8a238f61",
+  "outputs/adamw/checkpoint_verification.json": "9f5fe8f1dec5e22e88775a17f010ef9a15694913b9868d3b4e655514c717b9d2",
+  "outputs/adamw/best_model/model.safetensors": "d8c4e5bd6002b5ecba38b09bea9f0fa37696a4c9b4a6f401a4962a182bbe331b",
+  "outputs/adamw/best_model/tokenizer_config.json": "a3c9410f27554c6e26af779fd147e536c6c5f9e5cb0e6b8f38ddaa25e1b0f6af",
+  "outputs/adamw/best_model/special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+  "outputs/adamw/best_model/config.json": "a767c4c98c6f17c4333c2cf0a3ea0410bb9bd45352b341cfc9aca90bc38a6571",
+  "outputs/adamw/best_model/tokenizer.json": "79ea220416a57ca8acdf069d71875d5d2ddadef66021aeb6c120a7c546c04344",
+  "outputs/adamw/best_model/vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+  "outputs/muon/metrics.json": "ada72097e7fc186afecae7a05562e380ca229334893e30e323bdf316f5a6d74e",
+  "outputs/muon/parameter_groups.json": "feff5b07141a8ee71b3d0d06cf7f91b73240d129585661008fa6944aa15da31a",
+  "outputs/muon/config.json": "9c4aa798fe2e2d390c9be1056bae0fed1f0736b3e2c802decf670f13ec73309e",
+  "outputs/muon/checkpoint_verification.json": "f79d628314b811d343294fcec6f58c1e8bb0bfa8fa971358835601cac46f6fbe",
+  "outputs/muon/best_model/model.safetensors": "c4d3dd579af05c1b35adc218e530890df69a6e7adf75cb65cfbc5fe22c1b3c33",
+  "outputs/muon/best_model/tokenizer_config.json": "a3c9410f27554c6e26af779fd147e536c6c5f9e5cb0e6b8f38ddaa25e1b0f6af",
+  "outputs/muon/best_model/special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+  "outputs/muon/best_model/config.json": "a767c4c98c6f17c4333c2cf0a3ea0410bb9bd45352b341cfc9aca90bc38a6571",
+  "outputs/muon/best_model/tokenizer.json": "79ea220416a57ca8acdf069d71875d5d2ddadef66021aeb6c120a7c546c04344",
+  "outputs/muon/best_model/vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+}

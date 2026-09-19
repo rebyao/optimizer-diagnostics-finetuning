@@ -1,0 +1,8 @@
+{
+  "removed_regenerable_directories": [
+    "__pycache__",
+    "vendor/__pycache__"
+  ],
+  "raw_experiment_files_removed": false,
+  "retained_model_dataset_caches": true
+}

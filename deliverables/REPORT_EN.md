@@ -1,0 +1,15 @@
+# AdamW versus Muon: DistilBERT on SST-2
+
+*Provisional question mapping: the assignment’s four questions were not supplied. The four themes below cover design, performance, dynamics and sharpness.*
+
+**1. How was the comparison designed?**
+We fine-tuned the same pretrained DistilBERT on SST-2 (67,349 training and 872 validation examples), using batch size 32, three epochs, seed 42, maximum length 128 and constant learning rates. AdamW used 2e-5. Muon used 0.003 for hidden 2D linear weights; embeddings, biases, LayerNorm and the output classifier used AdamW at 2e-5. Three learning rates (0.001/0.003/0.01) passed a small training-only stability check; a predeclared rule selected 0.003 rather than the highest-scoring candidate. Model computation used FP32 on Apple M4/MPS; Muon’s reference orthogonalization used BF16.
+
+**2. Which optimizer performed better after full training?**
+AdamW’s final validation accuracy was **90.83%** with loss **0.26245**, versus **84.40%** and **0.39393** for Muon plus AdamW fallback. Muon’s best checkpoint was epoch 1 (87.04%); AdamW’s was epoch 3. Final training losses were 0.07696 and 0.13609. Thus, the tested AdamW configuration performed better over three epochs. These are single-seed configuration comparisons, not evidence that AdamW universally outperforms Muon.
+
+**3. What do the optimizer diagnostics show?**
+Historical gradient/update norms were not recorded and cannot be reconstructed. A separate matched experiment ran exactly 32 steps per optimizer on the same 1,024 examples. Initial weights, batches and per-step GPU random states matched. Muon had lower mean training loss (0.65161 versus 0.67184) and larger mean global update norm (0.49324 versus 0.05539). Relative update norms were 0.001184 versus 0.000133; gradient norms were 1.53027 versus 1.40018. Matrix-group updates were about nine times larger with Muon, while fallback updates were similar (0.00791 versus 0.00786). Early loss reduction and larger updates therefore did not translate into better final accuracy. This short-run behavior must not be mistaken for the original training trajectory or a causal explanation of the accuracy gap.
+
+**4. Which solution is flatter, and what are the limitations?**
+We perturbed the saved best checkpoints on the same 256 validation examples using eight paired Gaussian directions and five nonzero magnitudes. Each tensor’s perturbation norm was epsilon times its parameter norm. At epsilon=0.1, symmetric mean loss increases were 0.00741 (AdamW) and 0.00435 (Muon). However, the paired Muon-minus-AdamW difference had an approximate 95% directional interval of [-0.00976, 0.00365], including zero. Sharpness is therefore inconclusive. Random directions do not identify worst-case curvature; normalization is not fully reparameterization-invariant. Different checkpoint epochs, baseline losses, learning rates and effective weight decay, plus one training seed and a small validation subset, limit attribution and generalization. No missing historical metrics were invented.
