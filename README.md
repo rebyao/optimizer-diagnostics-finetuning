@@ -1,12 +1,12 @@
 # AdamW vs Muon — DistilBERT / SST-2
 
-**Final report:** [`deliverables/REPORT_EN.pdf`](deliverables/REPORT_EN.pdf) ([Markdown](deliverables/REPORT_EN.md)) · **Result tables:** [`deliverables/RESULTS.md`](deliverables/RESULTS.md)
+**Final report:** [`deliverables/REPORT_EN.pdf`](deliverables/REPORT_EN.pdf) ([Markdown](deliverables/REPORT_EN.md)) · **Result tables:** [`deliverables/RESULTS.md`](deliverables/RESULTS.md) · **Extended analysis:** [`deliverables/SUPPLEMENTARY_ANALYSIS.md`](deliverables/SUPPLEMENTARY_ANALYSIS.md)
 
 ## Project overview
 
 Comparison of AdamW and Muon (with an AdamW fallback for non-matrix parameters) for fine-tuning DistilBERT on GLUE SST-2. The project covers three experiments: full 3-epoch fine-tuning, a matched 32-step optimizer diagnostic run comparing gradient/update norms, and a checkpoint sharpness (perturbation) analysis. Muon is vendored unmodified as `SingleDeviceMuon` (`vendor/muon.py`); its license and source commit/checksum are in `vendor/LICENSE` and `vendor/SOURCE.json`.
 
-Detailed methodology, per-question analysis, and limitations are in the [final report](deliverables/REPORT_EN.md) — this README covers setup, reproduction, and the headline numbers only.
+The final report answers the assignment's four questions (which optimizer performed better and by what criterion, which solution appears flatter, how reliable the conclusions are, and what a larger study would change); [`SUPPLEMENTARY_ANALYSIS.md`](deliverables/SUPPLEMENTARY_ANALYSIS.md) expands on metric rationale, the learning-rate/weight-decay fairness discussion, the 32-step update-norm trend, and training-time comparison that would not fit on one page. This README covers setup, reproduction, and the headline numbers only.
 
 ## Main results
 
