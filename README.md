@@ -18,8 +18,10 @@ The final report answers the assignment's four questions (which optimizer perfor
 | Separate 32-step mean training loss | 0.671843 | 0.651614 |
 | Separate 32-step mean global update norm | 0.055392 | 0.493242 |
 | Best-checkpoint symmetric mean Δloss, ε = 0.1 | 0.007410 | 0.004354 |
+| Hessian top positive eigenvalue (power iteration) | 126.19 | 492.99 |
+| Hessian dominant (largest-magnitude) eigenvalue | 126.19 | -1180.66 |
 
-Muon showed lower loss and larger parameter updates during the short 32-step run, but ended full training with lower validation accuracy than AdamW under this fixed configuration. Sharpness is inconclusive: the paired directional difference in loss increase between optimizers includes zero across all tested magnitudes. Figures: [`training_loss.png`](deliverables/training_loss.png), [`gradient_update_norms.png`](deliverables/gradient_update_norms.png), [`optimizer_diagnostics.png`](deliverables/optimizer_diagnostics.png), [`sharpness.png`](deliverables/sharpness.png), [`performance.png`](deliverables/performance.png) (vector PDFs alongside each PNG).
+Muon showed lower loss and larger parameter updates during the short 32-step run, but ended full training with lower validation accuracy than AdamW under this fixed configuration. Random-direction sharpness is inconclusive: the paired directional intervals exclude zero at smaller perturbations but include zero at larger magnitudes. A second, independent estimate — the top Hessian eigenvalue via power iteration on Hessian-vector products — instead shows Muon's checkpoint with much higher worst-case curvature (492.99 vs. AdamW's 126.19) and a strong negative-curvature direction (-1180.66) that random-direction sharpness cannot see; the two methods probe different things (average-case vs. worst-case curvature) and are not combined into a single flatness verdict (details, including numerical verification of the Hessian estimate, in `SUPPLEMENTARY_ANALYSIS.md`). Limited directional sampling and checkpoint differences prevent a robust overall flatness conclusion. Figures: [`training_loss.png`](deliverables/training_loss.png), [`gradient_update_norms.png`](deliverables/gradient_update_norms.png), [`optimizer_diagnostics.png`](deliverables/optimizer_diagnostics.png), [`sharpness.png`](deliverables/sharpness.png), [`performance.png`](deliverables/performance.png), [`hessian_convergence.png`](deliverables/hessian_convergence.png) (vector PDFs alongside each PNG).
 
 ## Setup & reproduction
 
@@ -72,6 +74,7 @@ muon_sanity.py                       learning-rate stability check
 run_optimizer_diagnostics.py         matched 32-step optimizer diagnostic run
 diagnostics.py                       gradient/update norm recording helpers
 analyze_checkpoints.py               checkpoint perturbation / sharpness analysis
+hessian_sharpness.py                 Hessian top-eigenvalue cross-check (power iteration + HVPs)
 summarize_experiments.py             builds deliverables/ tables and figures from outputs/
 render_report.py                     renders the one-page English PDF report
 requirements.txt, installed-versions.txt
@@ -80,6 +83,7 @@ outputs/                             raw metrics, protocols, and CSVs from each 
   optimizer_diagnostics_32steps/       32-step matched diagnostic data
   diagnostics/                         checkpoint gradients and sharpness perturbation data
   muon_sanity/                         learning-rate stability check results
+  hessian_sharpness/                   Hessian top-eigenvalue results, convergence log, and numerical verification
   comparison.csv, comparison.md        run-to-run comparison summary
 deliverables/                        final report, figures, and result tables
 archive/                             historical stage reports, smoke test, and superseded tools (see archive/README.md)

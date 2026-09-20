@@ -1,0 +1,38 @@
+{
+  "adamw": {
+    "optimizer": "adamw",
+    "dim": 66955010,
+    "baseline_loss": 0.22532904148101807,
+    "raw_dominant_eigenvalue": 126.19264221191406,
+    "raw_converged": true,
+    "raw_iterations": 10,
+    "raw_elapsed_seconds": 79.64176954198047,
+    "deflated_dominant_eigenvalue": 74.35713195800781,
+    "deflated_converged": true,
+    "deflated_iterations": 12,
+    "deflated_elapsed_seconds": 95.41436295901076,
+    "raw_deflated_eigenvector_overlap": 0.0044945296831429005,
+    "collapsed_to_raw_eigenvector": false,
+    "top_algebraic_eigenvalue_estimate": 126.19264221191406,
+    "note": "raw dominant eigenvalue was already positive; it is the top algebraic eigenvalue.",
+    "reliable": true
+  },
+  "muon": {
+    "optimizer": "muon",
+    "dim": 66955010,
+    "baseline_loss": 0.3198715467005968,
+    "raw_dominant_eigenvalue": -1180.65625,
+    "raw_converged": true,
+    "raw_iterations": 8,
+    "raw_elapsed_seconds": 63.55800383299356,
+    "deflated_dominant_eigenvalue": 492.9900207519531,
+    "deflated_converged": true,
+    "deflated_iterations": 9,
+    "deflated_elapsed_seconds": 72.2580236250069,
+    "raw_deflated_eigenvector_overlap": 0.004189086612313986,
+    "collapsed_to_raw_eigenvector": false,
+    "top_algebraic_eigenvalue_estimate": 492.9900207519531,
+    "note": "raw dominant eigenvalue was negative; using the deflated pass, which found a positive eigenvalue.",
+    "reliable": true
+  }
+}

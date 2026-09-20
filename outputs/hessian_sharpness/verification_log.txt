@@ -1,0 +1,36 @@
+device=mps
+=== adamw ===
+  adamw FD eps=0.001: cosine_similarity=0.218319 relative_L2_error=4.513005 ||fd||=0.1879 ||autograd_hvp||=0.04062
+  adamw FD eps=0.0003: cosine_similarity=0.945557 relative_L2_error=0.330563 ||fd||=0.04076 ||autograd_hvp||=0.04062
+  raw reproduced: eig=126.193 (reported 126.193) converged=True iters=10 in 64.7s
+  deflated reproduced: eig=74.3571 (reported 74.3571) converged=True iters=12 in 75.9s
+  true-H Rayleigh @ raw_vec = 126.197 (residual 0.3347); expected == raw_eig since raw pass never deflated
+  true-H Rayleigh @ deflated_vec = 74.3619 (residual 0.6047); deflated pass reported 74.3571 for the DEFLATED operator
+  true-H Rayleigh @ top_vec (used as top_algebraic_eigenvalue_estimate) = 126.197 (residual 0.3347); reported estimate 126.193
+=== muon ===
+  muon FD eps=0.001: cosine_similarity=0.995904 relative_L2_error=0.100034 ||fd||=0.1816 ||autograd_hvp||=0.1748
+  muon FD eps=0.0003: cosine_similarity=0.982213 relative_L2_error=0.197780 ||fd||=0.1609 ||autograd_hvp||=0.1748
+  raw reproduced: eig=-1180.66 (reported -1180.66) converged=True iters=8 in 54.6s
+  deflated reproduced: eig=492.99 (reported 492.99) converged=True iters=9 in 63.4s
+  true-H Rayleigh @ raw_vec = -1180.67 (residual 2.065); expected == raw_eig since raw pass never deflated
+  true-H Rayleigh @ deflated_vec = 492.974 (residual 4.996); deflated pass reported 492.99 for the DEFLATED operator
+  true-H Rayleigh @ top_vec (used as top_algebraic_eigenvalue_estimate) = 492.974 (residual 4.996); reported estimate 492.99
+  double-deflation (remove v1 & v2): deflated-operator eig=271.354, true-H Rayleigh=271.357 (residual 1.31), converged=True iters=9 in 64.3s, |overlap w/ v1|=0.0001, |overlap w/ v2|=0.0026
+  stability seed=3026: deflated-operator eig=492.981, true-H Rayleigh=492.972 (residual 5.053), converged=True iters=11 in 73.0s, |overlap w/ original top_vec|=1.0000
+  stability seed=4026: deflated-operator eig=492.986, true-H Rayleigh=492.973 (residual 5.023), converged=True iters=10 in 64.4s, |overlap w/ original top_vec|=1.0000
+  stability seed=5026: deflated-operator eig=492.982, true-H Rayleigh=492.972 (residual 5.05), converged=True iters=9 in 58.3s, |overlap w/ original top_vec|=1.0000
+checkpoint files unchanged: True
+
+--- follow-up eigenvector-direction FD check ---
+=== adamw (eigenvector-direction FD, use_deflated=False) ===
+  raw eig=126.193 converged=True in 64.5s
+  eps=0.001: cosine=0.973505 rel_err=0.228739 fd_norm=123.6 hvp_norm=126.2 (expected ~|eig|=126.2)
+  eps=0.0003: cosine=0.952000 rel_err=0.318176 fd_norm=109.2 hvp_norm=126.2 (expected ~|eig|=126.2)
+  eps=0.0001: cosine=0.860635 rel_err=0.519032 fd_norm=121.3 hvp_norm=126.2 (expected ~|eig|=126.2)
+=== muon (eigenvector-direction FD, use_deflated=True) ===
+  raw eig=-1180.66 converged=True in 53.3s
+  deflated eig=492.99 converged=True in 59.1s
+  eps=0.001: cosine=0.988259 rel_err=0.302006 fd_norm=358.8 hvp_norm=493 (expected ~|eig|=493)
+  eps=0.0003: cosine=0.989158 rel_err=0.160037 fd_norm=456.3 hvp_norm=493 (expected ~|eig|=493)
+  eps=0.0001: cosine=0.991590 rel_err=0.130346 fd_norm=481.2 hvp_norm=493 (expected ~|eig|=493)
+checkpoint files unchanged: True

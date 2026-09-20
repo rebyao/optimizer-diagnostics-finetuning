@@ -1,0 +1,21 @@
+{
+  "method": "Power iteration on Hessian-vector products (double backward), no explicit Hessian",
+  "subset_size": 256,
+  "subset_seed": 42,
+  "max_length": 128,
+  "chunk_size": 32,
+  "hvp_construction": "H v computed as a size-weighted sum of 8 per-chunk (batch=32) HVPs (H = (1/N) sum_i H_i is linear in the per-example loss, so this is exact, not an approximation); avoids an MPS OOM/blowup found when differentiating all 256 examples in one graph.",
+  "loss": "mean cross-entropy over the 256-example validation subset, eval mode (dropout off)",
+  "parameter_scope": "all named parameters (embeddings, norms, biases, classifier, hidden matrices)",
+  "device": "mps",
+  "model_kwargs": {},
+  "random_seed": 2026,
+  "max_iters": 40,
+  "tolerance": 0.0001,
+  "sign_check": "Plain power iteration converges to the eigenvalue of largest MAGNITUDE, which can be negative. If the raw pass finds a positive value it is already the top algebraic eigenvalue; otherwise a second, freshly-initialized power iteration is run on the Hotelling-deflated operator H - raw_eig*(v v^T) to remove that component and search for the next dominant eigenpair, checked for a positive sign and for not re-converging to the same eigenvector as the raw pass.",
+  "caveat": "Deflation only removes one eigencomponent; if a second large-magnitude negative eigenvalue exists it would be found next instead of the true positive maximum. Non-convergent, still-negative, or eigenvector-collapsed results are marked unreliable rather than reported as a confirmed curvature estimate.",
+  "checkpoints": {
+    "adamw": "best, epoch 3",
+    "muon": "best, epoch 1"
+  }
+}

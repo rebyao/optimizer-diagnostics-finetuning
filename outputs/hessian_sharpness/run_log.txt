@@ -1,0 +1,8 @@
+device smoke test: mps (kwargs={}) -> eig=25.488435745239258, finite=True, 3.47s for 2 iterations on 32 examples
+single full-subset chunked HVP on mps: 8.32s; projected total for 40 iters x 2 passes x 2 checkpoints: 1331s
+adamw: raw power iteration done in 79.6s, 10 iters, converged=True, eig~126.193
+adamw: deflated power iteration done in 95.4s, 12 iters, converged=True, eig~74.3571, |raw.deflated eigenvector overlap|=0.0045
+adamw: raw dominant eigenvalue was already positive; it is the top algebraic eigenvalue. top_algebraic_eigenvalue_estimate=126.193, reliable=True
+muon: raw power iteration done in 63.6s, 8 iters, converged=True, eig~-1180.66
+muon: deflated power iteration done in 72.3s, 9 iters, converged=True, eig~492.99, |raw.deflated eigenvector overlap|=0.0042
+muon: raw dominant eigenvalue was negative; using the deflated pass, which found a positive eigenvalue. top_algebraic_eigenvalue_estimate=492.99, reliable=True

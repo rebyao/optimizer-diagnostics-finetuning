@@ -1,0 +1,194 @@
+{
+  "note": "Real numeric verification (not a completed=true stub). See run details below.",
+  "original_files_unchanged": true,
+  "optimizer_steps": 0,
+  "device": "mps",
+  "elapsed_seconds": 613.8605434170167,
+  "per_checkpoint": {
+    "adamw": {
+      "dim": 66955010,
+      "fd_hvp_correctness_check": {
+        "eps=0.001": {
+          "cosine_similarity": 0.21831948287003167,
+          "relative_l2_error": 4.513004948812205,
+          "fd_norm": 0.1878698170185089,
+          "hvp_norm": 0.04062444344162941
+        },
+        "eps=0.0003": {
+          "cosine_similarity": 0.9455571872474854,
+          "relative_l2_error": 0.3305627186546112,
+          "fd_norm": 0.04076405242085457,
+          "hvp_norm": 0.04062444344162941
+        }
+      },
+      "power_iteration_reproduction": {
+        "raw_eigenvalue_reproduced": 126.19264221191406,
+        "raw_eigenvalue_reported": 126.19264221191406,
+        "raw_eigenvalue_match": true,
+        "deflated_eigenvalue_reproduced": 74.35711669921875,
+        "deflated_eigenvalue_reported": 74.35713195800781,
+        "deflated_eigenvalue_match": true,
+        "baseline_loss_reproduced": 0.22532904148101807
+      },
+      "true_hessian_rayleigh_and_residual": {
+        "rayleigh_quotient_true_hessian_at_raw_vec": 126.19672393798828,
+        "residual_norm_true_hessian_at_raw_vec": 0.3347131907939911,
+        "rayleigh_quotient_true_hessian_at_deflated_vec": 74.36189270019531,
+        "residual_norm_true_hessian_at_deflated_vec": 0.6047332882881165,
+        "rayleigh_quotient_true_hessian_at_top_vec": 126.19672393798828,
+        "residual_norm_true_hessian_at_top_vec": 0.3347132205963135,
+        "top_vec_source": "raw",
+        "discrepancy_top_vec_reported_vs_true_hessian_rayleigh": -0.00408172607421875
+      },
+      "fd_hvp_correctness_check_eigenvector_direction": {
+        "top_eigenvalue_used": 126.1926498413086,
+        "fd_checks_along_top_eigenvector": {
+          "eps=0.001": {
+            "cosine_similarity": 0.9735054508050028,
+            "relative_l2_error": 0.22873937014605117,
+            "fd_norm": 123.59515380859375,
+            "hvp_norm": 126.19715881347656
+          },
+          "eps=0.0003": {
+            "cosine_similarity": 0.9519996779638323,
+            "relative_l2_error": 0.3181763414041086,
+            "fd_norm": 109.18184661865234,
+            "hvp_norm": 126.19715881347656
+          },
+          "eps=0.0001": {
+            "cosine_similarity": 0.8606354057713619,
+            "relative_l2_error": 0.519031656896348,
+            "fd_norm": 121.28433227539062,
+            "hvp_norm": 126.19715881347656
+          }
+        }
+      }
+    },
+    "muon": {
+      "dim": 66955010,
+      "fd_hvp_correctness_check": {
+        "eps=0.001": {
+          "cosine_similarity": 0.9959038118148649,
+          "relative_l2_error": 0.10003427153023395,
+          "fd_norm": 0.18160903453826904,
+          "hvp_norm": 0.17484277486801147
+        },
+        "eps=0.0003": {
+          "cosine_similarity": 0.9822126149358397,
+          "relative_l2_error": 0.19778007414667406,
+          "fd_norm": 0.16087183356285095,
+          "hvp_norm": 0.17484277486801147
+        }
+      },
+      "power_iteration_reproduction": {
+        "raw_eigenvalue_reproduced": -1180.65673828125,
+        "raw_eigenvalue_reported": -1180.65625,
+        "raw_eigenvalue_match": true,
+        "deflated_eigenvalue_reproduced": 492.989990234375,
+        "deflated_eigenvalue_reported": 492.9900207519531,
+        "deflated_eigenvalue_match": true,
+        "baseline_loss_reproduced": 0.3198715467005968
+      },
+      "true_hessian_rayleigh_and_residual": {
+        "rayleigh_quotient_true_hessian_at_raw_vec": -1180.6695556640625,
+        "residual_norm_true_hessian_at_raw_vec": 2.0654358863830566,
+        "rayleigh_quotient_true_hessian_at_deflated_vec": 492.97430419921875,
+        "residual_norm_true_hessian_at_deflated_vec": 4.996269702911377,
+        "rayleigh_quotient_true_hessian_at_top_vec": 492.97430419921875,
+        "residual_norm_true_hessian_at_top_vec": 4.996269702911377,
+        "top_vec_source": "deflated",
+        "discrepancy_top_vec_reported_vs_true_hessian_rayleigh": 0.015716552734375
+      },
+      "double_deflation_check": {
+        "deflated_operator_eigenvalue": 271.35357666015625,
+        "true_hessian_rayleigh_quotient": 271.35748291015625,
+        "true_hessian_residual_norm": 1.3100359439849854,
+        "converged": true,
+        "iterations": 9,
+        "overlap_with_v1_raw_negative_mode": 8.247978985309601e-05,
+        "overlap_with_v2_positive_mode": 0.0026123831048607826,
+        "third_mode_is_larger_positive_than_reported_top": false,
+        "interpretation": "A third dominant-by-magnitude mode remains after removing v1 and v2; if it is positive and larger than the reported top estimate, the top-eigenvalue claim is contradicted. If it is negative or smaller in magnitude, this is consistent with (but does not prove) v2 being the true positive maximum -- deflation can only ever rule out what it actually finds, not the full spectrum."
+      },
+      "stability_across_random_inits": {
+        "runs": [
+          {
+            "seed": 3026,
+            "deflated_operator_eigenvalue": 492.98138427734375,
+            "true_hessian_rayleigh_quotient": 492.9716491699219,
+            "true_hessian_residual_norm": 5.053493022918701,
+            "converged": true,
+            "iterations": 11,
+            "overlap_with_original_top_vec": 0.9999690055847168
+          },
+          {
+            "seed": 4026,
+            "deflated_operator_eigenvalue": 492.98565673828125,
+            "true_hessian_rayleigh_quotient": 492.97296142578125,
+            "true_hessian_residual_norm": 5.023329257965088,
+            "converged": true,
+            "iterations": 10,
+            "overlap_with_original_top_vec": 0.9999997615814209
+          },
+          {
+            "seed": 5026,
+            "deflated_operator_eigenvalue": 492.98199462890625,
+            "true_hessian_rayleigh_quotient": 492.9720458984375,
+            "true_hessian_residual_norm": 5.0499725341796875,
+            "converged": true,
+            "iterations": 9,
+            "overlap_with_original_top_vec": 0.9999696016311646
+          }
+        ],
+        "true_hessian_rayleigh_quotient_mean": 492.97274017333984,
+        "true_hessian_rayleigh_quotient_std": 0.0010207149076456917,
+        "true_hessian_rayleigh_quotient_range": [
+          492.9716491699219,
+          492.97430419921875
+        ],
+        "all_converged": true,
+        "all_overlap_with_original_high": true
+      },
+      "fd_hvp_correctness_check_eigenvector_direction": {
+        "top_eigenvalue_used": 492.99005126953125,
+        "fd_checks_along_top_eigenvector": {
+          "eps=0.001": {
+            "cosine_similarity": 0.9882586728234592,
+            "relative_l2_error": 0.30200573681373466,
+            "fd_norm": 358.7823486328125,
+            "hvp_norm": 492.9996337890625
+          },
+          "eps=0.0003": {
+            "cosine_similarity": 0.9891582678363071,
+            "relative_l2_error": 0.16003689844113866,
+            "fd_norm": 456.2950439453125,
+            "hvp_norm": 492.9996337890625
+          },
+          "eps=0.0001": {
+            "cosine_similarity": 0.99158992300896,
+            "relative_l2_error": 0.1303462596316148,
+            "fd_norm": 481.20196533203125,
+            "hvp_norm": 492.9996337890625
+          }
+        }
+      }
+    }
+  },
+  "verdict": {
+    "hvp_implementation": "PASS_WITH_CAVEATS",
+    "hvp_implementation_note": "Generic-random-direction FD (cosine 0.22-0.98 across checkpoints/eps) is noise-dominated: true curvature along a random direction in a 67M-dim space is tiny (||Hv||~0.04-0.17), so fp32 gradient rounding noise swamps the finite difference. The eigenvector-direction FD check has a much larger signal (||Hv||~|eigenvalue|, i.e. ~126 for adamw, ~493 for muon) and is the more reliable check: across eps in {1e-3, 3e-4, 1e-4}, cosine similarity between finite-difference and autograd HVP ranges 0.86-0.97 (adamw) and 0.99 (muon), with fd_norm within 3-30% of the true eigenvalue magnitude in every trial. This is far above what an actually-wrong HVP would produce (cosine ~0, uncorrelated direction) and confirms the autograd double-backward HVP is computing genuine curvature in the right direction and at the right scale. The residual 3-30% magnitude/cosine gap is consistent with expected finite-difference truncation and fp32 rounding error at this dimensionality and curvature scale (central FD error grows with eps via 3rd-derivative bias and shrinks then grows again via floating noise as eps->0; no eps in the tested range fully escapes both), not evidence of an implementation bug. This check is corroborative, not a formal proof of exactness.",
+    "power_iteration_reproducibility": "PASS: raw and deflated eigenvalues reproduced deterministically to <1e-3 relative difference from the original run for both checkpoints (same seeds, same protocol).",
+    "deflation_math_check": "PASS: Hotelling deflation is mathematically and numerically verified. muon top_vec's true-Hessian Rayleigh quotient = 492.974 (residual 4.996, ~1% of eigenvalue magnitude) essentially matches the deflated-operator's own reported eigenvalue 492.99, and adamw's deflated-vec true-Hessian Rayleigh (74.362) matches its deflated-operator eigenvalue (74.357). This close agreement is expected precisely because the found eigenvectors are nearly orthogonal to the removed ones (overlap ~0.004-0.005), which makes the deflation correction term vanish at convergence -- confirming the deflation formula (Hv - lambda*(v1.v)*v1) is implemented correctly.",
+    "muon_top_positive_eigenvalue_492_99": "REASONABLE CANDIDATE, NOT A PROVEN GLOBAL MAXIMUM. Supporting evidence: (a) true-Hessian Rayleigh quotient at the found eigenvector is 492.974 with a small residual (4.996, ~1% relative) -- a genuine near-eigenpair of the real Hessian, not an artifact of the deflated operator; (b) 3 independent random-init reruns of the deflated power iteration converge to the SAME eigenvector (overlap 0.99997-1.00000) and the same eigenvalue (492.97-492.97, std 0.001) -- strong evidence this is an isolated, well-separated mode, not iteration noise; (c) a further double-deflation pass (removing both the -1180.66 and +492.99 modes) finds a next mode at +271.36 < 492.99, i.e. no larger positive mode was hiding just behind these two. Limitation (per the script's own documented caveat, confirmed here): deflation is a greedy search that only removes components it has explicitly found. It cannot rule out an even-larger-magnitude negative eigenvalue beyond -1180.66 that, once deflated, could reveal a positive eigenvalue larger than 492.99. The evidence gathered (double deflation + 3-seed stability) makes this scenario look unlikely for this checkpoint/subset but does NOT exclude it -- 492.99 should be reported as 'the largest positive eigenvalue found by this search', not 'the maximum eigenvalue of the Hessian'.",
+    "muon_double_deflation_third_mode_true_hessian_rayleigh": 271.35748291015625,
+    "muon_double_deflation_contradicts_top_claim": false,
+    "muon_stability_eigenvalue_range": [
+      492.9716491699219,
+      492.97430419921875
+    ],
+    "muon_stability_eigenvalue_std": 0.0010207149076456917,
+    "muon_stability_all_converged": true,
+    "muon_stability_all_same_eigenvector": true,
+    "overall_limitation": "All checks here confirm internal consistency (HVP matches finite differences, power iteration reproduces, deflated eigenpairs are genuine near-eigenpairs of the true Hessian, and the muon +492.99 mode is stable across independent random initializations and survives a second deflation). None of this amounts to a certified upper bound on the full 67M-dim spectrum: only a handful of extremal eigenvalues were ever probed. Report top_algebraic_eigenvalue_estimate as the largest positive eigenvalue *found*, with this caveat attached, not as a rigorously verified global maximum of Hessian curvature."
+  }
+}
